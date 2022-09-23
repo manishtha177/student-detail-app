@@ -32,6 +32,10 @@ const AddStudentDetails = () => {
     });
   };
 
+  const onBackButtonClick = () => {
+    router.push("/");
+  };
+
   const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -46,6 +50,9 @@ const AddStudentDetails = () => {
 
   return (
     <div className={styles.addStudentContainer}>
+      <div className={styles.backButtonWrapper}>
+        <Button label={t("BACK")} handleOnClick={onBackButtonClick} />
+      </div>
       <form onSubmit={onFormSubmit}>
         <span>{t("STUDENT_NAME")}</span>
         <Input

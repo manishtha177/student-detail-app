@@ -35,6 +35,10 @@ const EditStudentDetails = ({
     });
   };
 
+  const onBackButtonClick = () => {
+    router.push("/");
+  };
+
   const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -42,11 +46,13 @@ const EditStudentDetails = ({
     STUDENT_DETAILS[editedIndex].score = Number(editStudentDetails.score);
     STUDENT_DETAILS[editedIndex].class = editStudentDetails.selectedClass;
     STUDENT_DETAILS[editedIndex].studentId = uuidv4();
-    router.push("/");
   };
 
   return (
     <div className={styles.editStudentContainer}>
+      <div className={styles.backButtonWrapper}>
+        <Button label={t("BACK")} handleOnClick={onBackButtonClick} />
+      </div>
       <form onSubmit={onFormSubmit}>
         <span>{t("STUDENT_NAME")}</span>
         <Input

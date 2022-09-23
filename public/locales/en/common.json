@@ -6,5 +6,6 @@
   "FILTER": "Filter",  
   "EDIT_RECORD":"Edit Record",
   "FROM": "From",
-  "TO":"To"
+  "TO":"To",
+  "BACK":"Back"
 }
