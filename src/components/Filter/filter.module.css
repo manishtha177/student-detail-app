@@ -1,0 +1,15 @@
+.filterContainer {
+  display: flex;
+  align-items: center;
+}
+
+.filterInput {
+  width: 70px;
+  height: 25px;
+  border-radius: 3px;
+  margin: 0 5px 0 5px;
+}
+
+.filterLabel {
+  margin-left: 5px;
+}
