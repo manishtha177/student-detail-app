@@ -1,0 +1,10 @@
+{
+  "STUDENT_NAME":"Student Name",
+  "SCORE":  "Score",
+  "CLASS":"Class",
+  "CREATE_RECORD":"Create Record",
+  "FILTER": "Filter",  
+  "EDIT_RECORD":"Edit Record",
+  "FROM": "From",
+  "TO":"To"
+}
