@@ -1,10 +1,12 @@
-import { v4 as uuidv4 } from "uuid";
-import { useTranslation } from "next-i18next";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { CLASSES, STUDENT_DETAILS } from "../../constants";
-import { Button } from "../common/Button";
-import { Input } from "../common/Input";
+import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+
 import { Radio } from "../common/Radio";
+import { Input } from "../common/Input";
+import { Button } from "../common/Button";
+import { CLASSES, STUDENT_DETAILS } from "../../constants";
 
 import styles from "./addStudent.module.css";
 
@@ -15,9 +17,11 @@ const StudentInitialValue = {
 };
 
 const AddStudentDetails = () => {
+  const router = useRouter();
+  const { t } = useTranslation("common");
+
   const [newStudentDetails, setNewStudentDetails] =
     useState(StudentInitialValue);
-  const { t } = useTranslation("common");
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -37,6 +41,7 @@ const AddStudentDetails = () => {
       class: newStudentDetails.selectedClass,
       studentId: uuidv4(),
     });
+    router.push("/");
   };
 
   return (
