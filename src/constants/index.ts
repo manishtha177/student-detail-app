@@ -6,7 +6,12 @@ export enum CLASSES {
   C = "C",
 }
 
-const date = new Date();
+export const PATHS = {
+  addStudent: "add-student",
+  editStudent: "edit-student",
+  dashboard: "/",
+};
+
 export const STUDENT_DETAILS = [
   {
     studentId: uuidv4(),
@@ -42,3 +47,11 @@ export const ClassesFilter = [
     isChecked: true,
   },
 ];
+
+export const FILTER_INITIAL_VALUES = {
+  from: 0,
+  to: 100,
+  classesSelected: [String(CLASSES.A), String(CLASSES.B), String(CLASSES.C)],
+};
+
+export const LOCALIZATION_FILE_NAME = "common";

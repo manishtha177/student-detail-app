@@ -1,5 +1,7 @@
 import { ChangeEvent } from "react";
 
+import styles from "./common.module.css";
+
 interface CheckBoxProps {
   label: string;
   isChecked: boolean;
@@ -11,7 +13,7 @@ export const CheckBox = ({
   isChecked,
   handleCheckBoxClick,
 }: CheckBoxProps) => (
-  <div>
+  <div className={styles.checkBoxWrapper}>
     <input type="checkbox" checked={isChecked} onChange={handleCheckBoxClick} />
     <label>{label}</label>
   </div>

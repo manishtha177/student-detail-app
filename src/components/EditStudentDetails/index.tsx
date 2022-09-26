@@ -1,9 +1,16 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import { STUDENT_DETAILS } from "../../constants";
+import { useStudents } from "../../context";
+import { validateAddEditForm } from "../../utils";
 import { StudentDetailForm } from "../common/StudentDetailForm";
+import {
+  LOCALIZATION_FILE_NAME,
+  PATHS,
+  STUDENT_DETAILS,
+} from "../../constants";
 
 import styles from "./editStudent.module.css";
 
@@ -12,14 +19,17 @@ const EditStudentDetails = ({
 }: {
   studentId: string | string[] | undefined;
 }) => {
-  const { t } = useTranslation("common");
-  const editedIndex = STUDENT_DETAILS.findIndex(
+  const router = useRouter();
+  const { editStudentDetail, students } = useStudents();
+  const { t } = useTranslation(LOCALIZATION_FILE_NAME);
+
+  const editedIndex = students.findIndex(
     (student) => student.studentId === studentId
   );
   const [editStudentDetails, setEditStudentDetails] = useState({
-    studentName: STUDENT_DETAILS[editedIndex].studentName,
-    score: STUDENT_DETAILS[editedIndex].score,
-    selectedClass: STUDENT_DETAILS[editedIndex].class,
+    studentName: students[editedIndex].studentName,
+    score: students[editedIndex].score,
+    class: students[editedIndex].class,
   });
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,12 +44,16 @@ const EditStudentDetails = ({
   const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    STUDENT_DETAILS[editedIndex].studentName = editStudentDetails.studentName;
-    STUDENT_DETAILS[editedIndex].score = Number(editStudentDetails.score);
-    STUDENT_DETAILS[editedIndex].class = editStudentDetails.selectedClass;
-    STUDENT_DETAILS[editedIndex].studentId = uuidv4();
+    if (editStudentDetail && validateAddEditForm(editStudentDetails)) {
+      editStudentDetail(studentId, {
+        ...editStudentDetails,
+        studentId: uuidv4(),
+      });
+    } else {
+      alert("Kindly enter valid details");
+    }
 
-    alert("Student Detail edited");
+    router.push(PATHS.dashboard);
   };
 
   return (

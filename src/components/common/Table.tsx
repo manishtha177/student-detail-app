@@ -1,16 +1,12 @@
+import { StudentProps } from "../../modals/student";
 import { Button } from "./Button";
 
-interface StudentDetailProps {
-  studentName: string;
-  score: number;
-  class: string;
-  studentId: string;
-}
+import styles from "./common.module.css";
 
 interface TableProps {
   headings: Array<string>;
-  studentDetails: Array<StudentDetailProps>;
-  onHanldeDelete: (student: StudentDetailProps) => void;
+  studentDetails: Array<StudentProps>;
+  onHanldeDelete?: (student: StudentProps) => void;
   onHanldeEdit: (studentId: string) => void;
 }
 
@@ -20,44 +16,39 @@ export const Table = ({
   onHanldeDelete,
   onHanldeEdit,
 }: TableProps) => (
-  <table>
-    <thead>
+  <table className={styles.tableWrapper}>
+    <thead className={styles.tableHeader}>
       <tr>
         {headings.map((heading: string, index: number) => (
-          <th key={index}>{heading}</th>
+          <th className={styles.tableDataWrapper} key={index}>
+            {heading}
+          </th>
         ))}
       </tr>
     </thead>
     <tbody>
-      {studentDetails.map(
-        (
-          student: {
-            studentName: string;
-            score: number;
-            class: string;
-            studentId: string;
-          },
-          index: number
-        ) => (
-          <tr key={index}>
-            <td>{student.studentName}</td>
-            <td>{student.score}</td>
-            <td>{student.class}</td>
-            <td>
+      {studentDetails.map((student: StudentProps, index: number) => (
+        <tr key={index}>
+          <td className={styles.tableDataWrapper}>{student.studentName}</td>
+          <td className={styles.tableDataWrapper}>{student.score}</td>
+          <td className={styles.tableDataWrapper}>
+            {student.class}
+            <div>
               <Button
                 label="Delete"
-                handleOnClick={() => onHanldeDelete(student)}
+                customClassName={styles.tableButton}
+                handleOnClick={() => onHanldeDelete && onHanldeDelete(student)}
               />
-            </td>
-            <td>
+              &nbsp; &nbsp;
               <Button
                 label="Edit"
+                customClassName={styles.tableButton}
                 handleOnClick={() => onHanldeEdit(student.studentId)}
               />
-            </td>
-          </tr>
-        )
-      )}
+            </div>
+          </td>
+        </tr>
+      ))}
     </tbody>
   </table>
 );

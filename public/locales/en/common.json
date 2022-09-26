@@ -2,10 +2,12 @@
   "STUDENT_NAME":"Student Name",
   "SCORE":  "Score",
   "CLASS":"Class",
-  "CREATE_RECORD":"Create Record",
+  "CREATE_RECORD":"+ Create Record",
   "FILTER": "Filter",  
   "EDIT_RECORD":"Edit Record",
   "FROM": "From",
-  "TO":"To",
-  "BACK":"Back"
+  "TO":"to",
+  "BACK":"< Back",
+  "NO_RECORDS_FOUND":"No records found!",
+  "STUDENT_DASHBOARD":"Student Dashboard"
 }

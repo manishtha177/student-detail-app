@@ -1,20 +1,25 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import { CLASSES, STUDENT_DETAILS } from "../../constants";
+import { useStudents } from "../../context";
+import { validateAddEditForm } from "../../utils";
 import { StudentDetailForm } from "../common/StudentDetailForm";
+import { CLASSES, LOCALIZATION_FILE_NAME, PATHS } from "../../constants";
 
 import styles from "./addStudent.module.css";
 
 const StudentInitialValue = {
   studentName: "",
   score: 0,
-  selectedClass: CLASSES.A.toString(),
+  class: CLASSES.A.toString(),
 };
 
 const AddStudentDetails = () => {
-  const { t } = useTranslation("common");
+  const router = useRouter();
+  const { addStudent } = useStudents();
+  const { t } = useTranslation(LOCALIZATION_FILE_NAME);
 
   const [newStudentDetails, setNewStudentDetails] =
     useState(StudentInitialValue);
@@ -31,12 +36,18 @@ const AddStudentDetails = () => {
   const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    STUDENT_DETAILS.push({
-      studentName: newStudentDetails.studentName,
-      score: Number(newStudentDetails.score),
-      class: newStudentDetails.selectedClass,
-      studentId: uuidv4(),
-    });
+    if (addStudent && validateAddEditForm(newStudentDetails)) {
+      addStudent({
+        studentName: newStudentDetails.studentName,
+        score: Number(newStudentDetails.score),
+        class: newStudentDetails.class,
+        studentId: uuidv4(),
+      });
+    } else {
+      alert("Kindly enter valid details");
+    }
+
+    router.push(PATHS.dashboard);
   };
 
   return (
