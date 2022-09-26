@@ -7,12 +7,14 @@ import { useState } from "react";
 import Filter from "../Filter";
 
 import styles from "./studentDetails.module.css";
+import { Button } from "../common/Button";
 
 const filterInitialValues = {
   from: 0,
   to: 100,
   classesSelected: ["A", "B", "C"],
 };
+
 const StudentDetails = () => {
   const router = useRouter();
   const { t } = useTranslation("common");
@@ -22,6 +24,10 @@ const StudentDetails = () => {
   const [filterValues, setFilterValues] = useState(filterInitialValues);
   const [filterStudentDetails, setFilterStudentDetails] =
     useState(studentDetails);
+
+  const onButtonClick = () => {
+    router.push("/add-student");
+  };
 
   const handleFilter = () => {
     const filteredStudentDetails = studentDetails.filter(
@@ -33,11 +39,21 @@ const StudentDetails = () => {
     setFilterStudentDetails(filteredStudentDetails);
   };
 
-  const onHanldeDelete = (studentId: string) => {
+  const onHanldeDelete = (student: {
+    studentName: string;
+    score: number;
+    class: string;
+    studentId: string;
+  }) => {
+    const { studentId } = student;
+    const studentIndex = studentDetails.indexOf(student);
     const filteredStudents = studentDetails.filter(
       (student) => student.studentId !== studentId
     );
+
+    STUDENT_DETAILS.splice(studentIndex, 1);
     setStudentDetails(filteredStudents);
+    setFilterStudentDetails(filteredStudents);
   };
 
   const onHanldeEdit = (studentId: string) => {
@@ -52,6 +68,7 @@ const StudentDetails = () => {
         setFilterValues={setFilterValues}
         handleFilter={handleFilter}
       />
+      <Button label={t("CREATE_RECORD")} handleOnClick={onButtonClick} />
       <Table
         headings={tableHeading}
         studentDetails={filterStudentDetails}

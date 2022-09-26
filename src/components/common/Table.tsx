@@ -1,14 +1,16 @@
 import { Button } from "./Button";
 
+interface StudentDetailProps {
+  studentName: string;
+  score: number;
+  class: string;
+  studentId: string;
+}
+
 interface TableProps {
   headings: Array<string>;
-  studentDetails: Array<{
-    studentName: string;
-    score: number;
-    class: string;
-    studentId: string;
-  }>;
-  onHanldeDelete: (studentId: string) => void;
+  studentDetails: Array<StudentDetailProps>;
+  onHanldeDelete: (student: StudentDetailProps) => void;
   onHanldeEdit: (studentId: string) => void;
 }
 
@@ -44,7 +46,7 @@ export const Table = ({
             <td>
               <Button
                 label="Delete"
-                handleOnClick={() => onHanldeDelete(student.studentId)}
+                handleOnClick={() => onHanldeDelete(student)}
               />
             </td>
             <td>
