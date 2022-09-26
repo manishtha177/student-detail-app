@@ -10,6 +10,7 @@
 
 1. uuid4 (Used to add unique id for every student)
 2. next-i18next (Used for localization)
+3. Context API
 
 First, run the development server:
 
@@ -29,3 +30,4 @@ As per the task, we have covered the followings:
 ## Areas that can be improves
 
 1. UI-Design can be improved.
+2. More test cases can be covered.
