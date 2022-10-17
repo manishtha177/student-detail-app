@@ -1,18 +1,18 @@
-import { StudentProps } from "../../modals/student";
-import { Button } from "./Button";
+import { Student } from '../../modals';
+import { Button } from './Button';
 
-import styles from "./common.module.css";
+import styles from './common.module.css';
 
 interface TableProps {
-  headings: Array<string>;
-  studentDetails: Array<StudentProps>;
-  onHanldeDelete?: (student: StudentProps) => void;
+  headings: string[];
+  students: Student[];
+  onHanldeDelete?: (student: Student) => void;
   onHanldeEdit: (studentId: string) => void;
 }
 
 export const Table = ({
   headings,
-  studentDetails,
+  students,
   onHanldeDelete,
   onHanldeEdit,
 }: TableProps) => (
@@ -27,9 +27,9 @@ export const Table = ({
       </tr>
     </thead>
     <tbody>
-      {studentDetails.map((student: StudentProps, index: number) => (
-        <tr key={index}>
-          <td className={styles.tableDataWrapper}>{student.studentName}</td>
+      {students.map((student: Student) => (
+        <tr key={student.id}>
+          <td className={styles.tableDataWrapper}>{student.name}</td>
           <td className={styles.tableDataWrapper}>{student.score}</td>
           <td className={styles.tableDataWrapper}>
             {student.class}
@@ -43,7 +43,7 @@ export const Table = ({
               <Button
                 label="Edit"
                 customClassName={styles.tableButton}
-                handleOnClick={() => onHanldeEdit(student.studentId)}
+                handleOnClick={() => onHanldeEdit(student.id)}
               />
             </div>
           </td>

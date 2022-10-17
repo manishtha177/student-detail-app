@@ -1,6 +1,6 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent } from 'react';
 
-import styles from "./common.module.css";
+import styles from './common.module.css';
 
 interface CheckBoxProps {
   label: string;

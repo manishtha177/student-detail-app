@@ -1,28 +1,26 @@
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
-import Filter from "../Filter";
-import { Table } from "../common/Table";
-import { Button } from "../common/Button";
-import { useStudents } from "../../context";
-import { LOCALIZATION_FILE_NAME, PATHS } from "../../constants";
+import Filter from '../Filter';
+import { Table } from '../common/Table';
+import { Button } from '../common/Button';
+import { useStudents } from '../../context';
+import { LOCALIZATION_FILE_NAME, PATHS } from '../../constants';
 
-import styles from "./dashboard.module.css";
+import styles from './dashboard.module.css';
 
 const Dashboard = () => {
   const router = useRouter();
   const { t } = useTranslation(LOCALIZATION_FILE_NAME);
-  const tableHeading = [t("STUDENT_NAME"), t("SCORE"), t("CLASS")];
 
-  const { students, filters, filterStudents, deleteStudent, setFilterValues } =
-    useStudents();
+  const { students, deleteStudent } = useStudents();
 
   const onButtonClick = () => {
-    router.push(PATHS.addStudent);
+    router.push(PATHS.ADD_STUDENT);
   };
 
   const onHanldeEdit = (studentId: string) => {
-    router.push(`${PATHS.editStudent}/${studentId}`);
+    router.push(`${PATHS.EDIT_STUDENT}/${studentId}`);
   };
 
   return (
@@ -31,15 +29,10 @@ const Dashboard = () => {
         <h1>{t("STUDENT_DASHBOARD")}</h1>
         <Button label={t("CREATE_RECORD")} handleOnClick={onButtonClick} />
       </div>
-      <Filter
-        filterValues={filters}
-        setFilterValues={setFilterValues}
-        handleFilter={filterStudents}
-      />
-
+      <Filter />
       <Table
-        headings={tableHeading}
-        studentDetails={students}
+        headings={[t("STUDENT_NAME"), t("SCORE"), t("CLASS")]}
+        students={students}
         onHanldeDelete={deleteStudent}
         onHanldeEdit={onHanldeEdit}
       />

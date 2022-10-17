@@ -1,67 +1,37 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import { useMemo, FC } from 'react';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
-import { useStudents } from "../../context";
-import { validateAddEditForm } from "../../utils";
-import { StudentDetailForm } from "../common/StudentDetailForm";
-import {
-  LOCALIZATION_FILE_NAME,
-  PATHS,
-  STUDENT_DETAILS,
-} from "../../constants";
+import { useStudents } from '../../context';
+import { StudentDetailForm } from '../common/StudentDetailForm';
+import { LOCALIZATION_FILE_NAME, PATHS } from '../../constants';
 
-import styles from "./editStudent.module.css";
+import styles from './editStudent.module.css';
+import { Student } from '../../modals';
 
-const EditStudentDetails = ({
-  studentId,
-}: {
-  studentId: string | string[] | undefined;
-}) => {
+interface EditStudentDetailsProps {
+  studentId: string;
+}
+
+const EditStudentDetails: FC<EditStudentDetailsProps> = ({ studentId } ) => {
   const router = useRouter();
-  const { editStudentDetail, students } = useStudents();
+  const { editStudent, students } = useStudents();
   const { t } = useTranslation(LOCALIZATION_FILE_NAME);
 
-  const editedIndex = students.findIndex(
-    (student) => student.studentId === studentId
-  );
-  const [editStudentDetails, setEditStudentDetails] = useState({
-    studentName: students[editedIndex].studentName,
-    score: students[editedIndex].score,
-    class: students[editedIndex].class,
-  });
+  const studentToEdit =  useMemo(() => {
+    return students.find(student => student.id === studentId);
+  }, [studentId]);
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setEditStudentDetails({
-      ...editStudentDetails,
-      [name]: value,
-    });
-  };
-
-  const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (editStudentDetail && validateAddEditForm(editStudentDetails)) {
-      editStudentDetail(studentId, {
-        ...editStudentDetails,
-        studentId: uuidv4(),
-      });
-    } else {
-      alert("Kindly enter valid details");
-    }
-
-    router.push(PATHS.dashboard);
+  const onFormSubmit = (student: Student) => {
+    editStudent(studentId, student);
+    router.push(PATHS.HOME);
   };
 
   return (
     <div className={styles.editStudentContainer}>
       <StudentDetailForm
         buttonLabel={t("EDIT_RECORD")}
-        studentFormDetail={editStudentDetails}
-        onChange={onChange}
+        student={studentToEdit}
         onFormSubmit={onFormSubmit}
       />
     </div>

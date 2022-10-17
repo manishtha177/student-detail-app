@@ -1,9 +1,9 @@
-import type { AppProps } from "next/app";
-import { appWithTranslation } from "next-i18next";
+import type { AppProps } from 'next/app';
+import { appWithTranslation } from 'next-i18next';
 
-import { StudentsProvider } from "../src/context";
+import { StudentsProvider } from '../src/context';
 
-import "../styles/globals.css";
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

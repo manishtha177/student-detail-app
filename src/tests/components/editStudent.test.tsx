@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 
-import { STUDENT_DETAILS } from "../../constants";
+import { STUDENTS_DUMMY_DATA } from "../../constants";
 import EditStudentDetails from "../../components/EditStudentDetails";
 
 jest.mock("react-i18next", () => ({
@@ -10,6 +10,6 @@ jest.mock("react-i18next", () => ({
 
 describe("Edit Student", () => {
   it("render Edit Student", () => {
-    render(<EditStudentDetails studentId={STUDENT_DETAILS[0].studentId} />);
+    render(<EditStudentDetails studentId={STUDENTS_DUMMY_DATA[0].id} />);
   });
 });

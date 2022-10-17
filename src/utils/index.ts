@@ -1,24 +1,7 @@
-interface ValidateAddEditFormProps {
-  studentName: string;
-  score: number;
-}
+export const validateAddEditForm = (name: string, score: number) => {
 
-export const validateAddEditForm = (student: ValidateAddEditFormProps) => {
-  const { studentName, score } = student;
-  const regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
-  let studentIsValidated = false;
+  const validName = name.trim().length > 2 && name.trim().length < 50;
+  const validScore =  score >= 0 && score <= 100;
 
-  if (
-    studentName.trim().length > 2 &&
-    studentName.trim().length < 50 &&
-    regName.test(studentName)
-  ) {
-    studentIsValidated = true;
-  }
-
-  if (score >= 0 && score <= 100) {
-    studentIsValidated = true;
-  }
-
-  return studentIsValidated;
+  return validName && validScore;
 };

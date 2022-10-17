@@ -1,15 +1,15 @@
-import styles from "./common.module.css";
+import styles from './common.module.css';
 
 interface ButtonProps {
   label?: string;
-  type?: "button" | "submit" | "reset";
+  type?: 'button' | 'submit' | 'reset';
   handleOnClick?: () => void;
   customClassName?: string;
 }
 
 export const Button = ({
   label,
-  type = "button",
+  type = 'button',
   handleOnClick,
   customClassName,
 }: ButtonProps) => (

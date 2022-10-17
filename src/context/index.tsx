@@ -3,94 +3,81 @@ import {
   createContext,
   useState,
   ReactElement,
-  Dispatch,
-  SetStateAction,
-} from "react";
-import { v4 as uuidv4 } from "uuid";
+  useMemo,
+} from 'react';
 
-import { FILTER_INITIAL_VALUES, STUDENT_DETAILS } from "../constants";
-import { FilterProps, StudentProps } from "../modals/student";
+import { FILTER_DEFAULT_VALUES, STUDENTS_DUMMY_DATA } from '../constants';
+import { Filter, Student, STUDENT_CLASS } from '../modals';
 
 interface StudentProviderProps {
-  students: Array<StudentProps>;
-  filters: FilterProps;
-  setFilterValues?: Dispatch<SetStateAction<FilterProps>>;
-  filterStudents?: () => void;
-  deleteStudent?: (student: StudentProps) => void;
-  addStudent?: (student: StudentProps) => void;
-  editStudentDetail?: (
-    studentId: string | string[] | undefined,
-    editedStudentDetails: StudentProps
-  ) => void;
+  students: Student[];
+  filters: Filter;
+  updateFilter?: (key: string, value: string | STUDENT_CLASS[]) => void;
+  deleteStudent?: (student: Student) => void;
+  addStudent: (student: Student) => void;
+  editStudent: (id: string, student: Student) => void;
 }
 
-const initialValues = {
-  students: STUDENT_DETAILS,
-  filters: FILTER_INITIAL_VALUES,
+const INITIAL_VALUES = {
+  students: STUDENTS_DUMMY_DATA,
+  filters: FILTER_DEFAULT_VALUES,
+  addStudent: () => {},
+  editStudent: () => {},
 };
 
-export const Students = createContext<StudentProviderProps>(initialValues);
+export const Students = createContext<StudentProviderProps>(INITIAL_VALUES);
 
 export const StudentsProvider = ({ children }: { children: ReactElement }) => {
-  const [students, setStudents] = useState([...STUDENT_DETAILS]);
-  const [filterValues, setFilterValues] = useState(FILTER_INITIAL_VALUES);
-  const [filterStudentDetails, setFilterStudentDetails] = useState(students);
 
-  const filterStudents = () => {
-    const filteredStudentDetails = students.filter(
-      (element) =>
-        element.score >= filterValues.from &&
-        element.score <= filterValues.to &&
-        filterValues.classesSelected.includes(element.class)
+  const [students, setStudents] = useState([...STUDENTS_DUMMY_DATA]);
+  const [filters, setFilters] = useState({ ...FILTER_DEFAULT_VALUES });
+
+  const dataToShow = useMemo(() => {    
+    return students.filter((student) =>
+        student.score >= filters.from &&
+        student.score <= filters.to &&
+        filters.selectedClasses.includes(student.class)
     );
+  }, [students, filters]);
 
-    if (filterValues.from >= 0 && filterValues.to <= 100) {
-      setFilterStudentDetails(filteredStudentDetails);
-    } else {
-      alert("Kindly enter correct values for from and to");
+  const updateFilter = (key: string, value: string | STUDENT_CLASS[]) => {
+    if (key === 'to' || key === 'from') {
+      setFilters({ ...filters, [key]: parseInt(value as string, 10) });
+      return
     }
-  };
+    setFilters({ ...filters, [key]: value });
+  }
 
-  const deleteStudent = (student: StudentProps) => {
-    const { studentId } = student;
-    const filteredStudents = students.filter(
-      (student) => student.studentId !== studentId
-    );
+  const deleteStudent = (student: Student) => {
+    const filteredStudents = students.filter(_student => _student.id !== student.id);
 
     setStudents(filteredStudents);
-    setFilterStudentDetails(filteredStudents);
   };
 
-  const addStudent = (student: StudentProps) => {
-    setStudents([...students, student]);
-    setFilterStudentDetails([...filterStudentDetails, student]);
+  const addStudent = (student: Student) => {
+    setStudents([ ...students, student ]);
   };
 
-  const editStudentDetail = (
-    studentId: string | string[] | undefined,
-    editedStudentDetails: StudentProps
-  ) => {
-    const editedIndex = students.findIndex(
-      (student) => student.studentId === studentId
-    );
+  const editStudent = (id: string, student: Student) => {
+    const updatedStudents = students.map((_student) => {
+      if(_student.id === id) {
+        return student;
+      }
+      return _student;
+    });
 
-    students[editedIndex].studentName = editedStudentDetails.studentName;
-    students[editedIndex].score = Number(editedStudentDetails.score);
-    students[editedIndex].class = editedStudentDetails.class;
-    students[editedIndex].studentId = uuidv4();
+    setStudents(updatedStudents);
   };
 
   return (
     <Students.Provider
       value={{
-        ...initialValues,
-        students: filterStudentDetails,
-        filters: filterValues,
-        setFilterValues,
-        filterStudents,
+        students: dataToShow,
+        filters,
+        updateFilter,
         deleteStudent,
         addStudent,
-        editStudentDetail,
+        editStudent,
       }}
     >
       {children}
@@ -103,7 +90,7 @@ export default Students;
 export function useStudents() {
   const context = useContext(Students);
   if (context === undefined) {
-    throw new Error("Context must be used within a Provider");
+    throw new Error('Context must be used within a Provider');
   }
   return context;
 }

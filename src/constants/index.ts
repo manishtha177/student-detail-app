@@ -1,57 +1,39 @@
-import { v4 as uuidv4 } from "uuid";
-
-export enum CLASSES {
-  A = "A",
-  B = "B",
-  C = "C",
-}
+import { v4 as uuidv4 } from 'uuid';
+import { STUDENT_CLASS } from '../modals';
 
 export const PATHS = {
-  addStudent: "add-student",
-  editStudent: "edit-student",
-  dashboard: "/",
+  ADD_STUDENT: 'add-student',
+  EDIT_STUDENT: 'edit-student',
+  HOME: '/',
 };
 
-export const STUDENT_DETAILS = [
+export const STUDENTS_DUMMY_DATA = [
   {
-    studentId: uuidv4(),
-    studentName: "Alan",
+    id: uuidv4(),
+    name: 'Alan',
     score: 70,
-    class: "A",
+    class: STUDENT_CLASS.A,
   },
   {
-    studentId: uuidv4(),
-    studentName: "Ben",
+    id: uuidv4(),
+    name: 'Ben',
     score: 90,
-    class: "B",
+    class: STUDENT_CLASS.B,
   },
   {
-    studentId: uuidv4(),
-    studentName: "Cath",
+    id: uuidv4(),
+    name: 'Cath',
     score: 80,
-    class: "C",
+    class: STUDENT_CLASS.C,
   },
 ];
 
-export const ClassesFilter = [
-  {
-    className: "A",
-    isChecked: true,
-  },
-  {
-    className: "B",
-    isChecked: true,
-  },
-  {
-    className: "C",
-    isChecked: true,
-  },
-];
-
-export const FILTER_INITIAL_VALUES = {
+export const FILTER_DEFAULT_VALUES = {
   from: 0,
   to: 100,
-  classesSelected: [String(CLASSES.A), String(CLASSES.B), String(CLASSES.C)],
+  selectedClasses: [STUDENT_CLASS.A, STUDENT_CLASS.B, STUDENT_CLASS.C],
 };
 
-export const LOCALIZATION_FILE_NAME = "common";
+export const CLASSES = [STUDENT_CLASS.A, STUDENT_CLASS.B, STUDENT_CLASS.C];
+
+export const LOCALIZATION_FILE_NAME = 'common';

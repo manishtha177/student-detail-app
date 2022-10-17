@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent } from 'react';
 
 interface InputProps {
   handleOnChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -12,8 +12,8 @@ export const Input = ({
   handleOnChange,
   value,
   name,
-  type = "text",
-  className = "",
+  type = 'text',
+  className = '',
 }: InputProps) => (
   <input
     type={type}

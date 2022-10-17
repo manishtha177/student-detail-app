@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 
 import Home from "../../../pages";
-import { STUDENT_DETAILS } from "../../constants";
+import { STUDENTS_DUMMY_DATA } from "../../constants";
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
